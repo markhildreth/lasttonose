@@ -3,6 +3,8 @@
 <head>
 	<title>Last To Nose</title>
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/css/screen.css" />
+
+	${self.head()}
 </head>
 <body>
 <!-- wrap starts here -->
@@ -42,3 +44,6 @@
 
 </body>
 </html>
+
+<%def name="head()">
+</%def>

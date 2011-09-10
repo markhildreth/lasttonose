@@ -321,6 +321,48 @@ input.long_text {
 	padding-right: 0;
 }
 
+/* Nose touching squares */
+div.nose-touch-status div.participant {
+	float: left;
+	width: 210px;
+	height: 250px;
+	margin: 5px;
+	border: 1px solid #EBEBEB;	
+}
+
+/* Nose touching form */
+form.nose-touch {
+	border: 0;
+	margin: 1px;
+	background: None;
+	padding: 0;
+}
+
+div.nose-touch-status div.participant p.name {
+	text-align: center;
+	margin 0 auto;
+	color: black;
+	font-size: 130%;
+}
+
+div.nose-touch-status div.participant img.status {
+	border: none;
+	padding: 10px;
+}
+
+div.nose-touch-status div.touched_nose {
+	background: green;
+}
+
+div.nose-touch-status div.not_touched_nose {
+	background: red;
+}
+
+span.game_name {
+	font-style: italic;
+	font-size: 80%;
+}
+
 
 /* alignment classes & additional classes*/
 .float-left  { float: left; }

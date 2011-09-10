@@ -1,3 +1,4 @@
+import random
 from urllib import urlencode
 
 from lasttonose import app, request, redirect, abort, url_for
@@ -72,6 +73,7 @@ def game_intro(game_id):
     }
     return templating.render('/game_intro.mako', dict(game=game))
 
+
 @app.route('/game/<game_id>')
 def game(game_id):
     try:
@@ -79,12 +81,23 @@ def game(game_id):
     except GameNotFound as ex:
         abort(404, 'This game is not found')
 
-    context = {
-        'game' : game,
-    }
+    random.seed(game['random_seed'])
+    try:
+        # Try to get a sample of images, so there are no duplicates...
+        participant_image_numbers = random.sample(range(1, game['start_image_count'] + 1), len(game['participants']))
+    except ValueError:
+        # More players than images. Just get random images.
+        participant_image_numbers = [random.randint(1, game['start_image_count']) for x in range(len(game['participants']))]
 
     game_state = logic.get_game_state(game)
-    return templating.render('/game.mako', dict(game=game, game_state=game_state))
+
+    context = {
+        'game' : game,
+        'participant_image_numbers' : participant_image_numbers,
+        'game_state' : game_state,
+    }
+
+    return templating.render('/game.mako', context)
 
 
 @app.route('/touch_nose', methods=['POST'])
