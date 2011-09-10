@@ -1,5 +1,5 @@
 import random
-from urllib import urlencode
+from urllib import quote
 
 from lasttonose import app, request, redirect, abort, url_for
 from lasttonose import templating
@@ -22,11 +22,16 @@ def _render_creation_form(name='', participants=None, errors=None):
     }
     return templating.render('/create.mako', context)
 
+def _quote_game_name(game_name):
+    game_name = game_name.lower().replace(' ', '-')
+    acceptable_characters = 'abcdefghijklmnopqrstuvwxyz0123456789-._~'
+    return ''.join([x for x in game_name if x in acceptable_characters])
+
 def _url_for_game_intro(game):
-    return '/game_intro/' + str(game['_id'])
+    return '/' + str(game['id']) + '/' + _quote_game_name(game['name'])
 
 def _url_for_game(game):
-    return '/game/' + str(game['_id'])
+    return '/game_results/' + str(game['id']) + '/' + _quote_game_name(game['name'])
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -45,12 +50,12 @@ def create():
         if results.is_valid:
             game = database.create_game(name, participants)
 
-            game_created_url = url_for('game_created', game_id=str(game['_id']))
+            game_created_url = url_for('game_created', game_id=str(game['id']))
             return redirect(game_created_url)
         else:
             return _render_creation_form(name, participants, results.errors)
             
-@app.route('/game_created/<game_id>')
+@app.route('/game_created/<int:game_id>')
 def game_created(game_id):
     try:
         game = database.get_game(game_id)
@@ -63,25 +68,33 @@ def game_created(game_id):
     }
     return templating.render('/game_created.mako', context)
 
-@app.route('/game_intro/<game_id>')
-def game_intro(game_id):
+@app.route('/<int:game_id>')
+@app.route('/<int:game_id>/<string:game_description>')
+def game(game_id, game_description=None):
     try:
         game = database.get_game(game_id)
     except GameNotFound as ex:
         abort(404, 'This game is not found')
+
+    if _quote_game_name(game['name']) != game_description:
+        return redirect(_url_for_game_intro(game))
 
     context = {
         'game' : game,
     }
-    return templating.render('/game_intro.mako', dict(game=game))
+    return templating.render('/game.mako', dict(game=game))
 
 
-@app.route('/game/<game_id>')
-def game(game_id):
+@app.route('/game_results/<int:game_id>')
+@app.route('/game_results/<int:game_id>/<string:game_description>')
+def game_results(game_id, game_description=None):
     try:
         game = database.get_game(game_id)
     except GameNotFound as ex:
         abort(404, 'This game is not found')
+
+    if _quote_game_name(game['name']) != game_description:
+        return redirect(_url_for_game(game))
 
     random.seed(game['random_seed'])
     try:
@@ -99,12 +112,12 @@ def game(game_id):
         'game_state' : game_state,
     }
 
-    return templating.render('/game.mako', context)
+    return templating.render('/game_results.mako', context)
 
 
 @app.route('/touch_nose', methods=['POST'])
 def touch_nose():
-    game_id = request.form['game']
+    game_id = int(request.form['game'])
     participant_name = request.form['participant']
 
     try:
