@@ -1,0 +1,345 @@
+/* ----------------------------------------------
+	Template Name : FreshPick
+	Template Code : S-0029
+	Version : 1.0
+	Author : Erwin Aligam
+	Author URI : http://www.styleshout.com/       
+	Last Date Modified : April 24, 2009
+ ------------------------------------------------ */
+ 
+/* ----------------------------------------------
+   HTML ELEMENTS
+------------------------------------------------- */ 
+body {
+	font: 12px/170% 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
+	color: #666666; 	
+	margin: 0; 
+	padding: 0; 
+	background: #FFF url(../images/bg.gif) repeat-x;
+	text-align: center;
+}
+
+/* Links */
+a:link, a:visited {
+	text-decoration: none;
+	color: #0788C3;
+}
+a:hover {
+	border-bottom: 1px dotted #0788C3;
+}
+a:link.more-link, a:visited.more-link {
+	padding-bottom: 2px;
+	font-weight: bold;
+	color: #0788C3;
+	border-bottom: 1px dotted #0788C3;
+}
+a:hover.more-link {
+	text-decoration: none;
+}
+
+/* Headers */
+h1, h2, h3, h4 {
+	font: bold 1em/1.5em Georgia, 'Times New Roman', Times, serif;
+	color: #555;
+	margin: 10px 20px 7px 20px;	 
+}
+h1 { font-size: 3.7em; font-weight: normal; letter-spacing: -2px; }
+h2 { font-size: 2.8em; font-weight: normal; }
+h3 { font-size: 2.2em; font-weight: normal; letter-spacing: -0.5px; padding-top: 15px; }
+h4 { font-size: 1.4em; }
+
+/* Lists */
+ul, ol {
+	margin: 10px 20px;
+	padding: 0 20px;
+}
+ul { list-style: disc; }
+ol { list-style: decimal; }
+
+dt {
+  font-weight: bold;
+  color: #1980AF;	
+}
+dd {
+  padding-left: 20px; 
+}
+
+p, dl { margin: 10px 20px; }
+
+/* Images */
+img {
+	background: #FAFAFA;
+   border: 1px solid #E4E4E4;
+	padding: 8px;
+}
+img.float-right {
+  	margin: 5px 0px 10px 10px;  
+}
+img.float-left {
+  	margin: 5px 10px 10px 0px;
+}
+
+code {
+  	margin: 3px 0;
+  	padding: 15px;
+  	text-align: left;
+  	display: block;
+  	overflow: auto;  
+  	font: 500 1em/1.5em 'Lucida Console', 'Courier New', Monospace;
+  	/* white-space: pre; */
+  	border: 1px solid #F0F0F0;
+	background: #F8F8F8;  
+}
+acronym {
+  cursor: help;
+  border-bottom: 1px dotted #555;
+}
+blockquote {
+	margin: 10px 20px;
+ 	padding: 10px 10px 10px 32px;  
+   border: 1px solid #F0F0F0;
+	background: #f8f8f8 url(../images/quote.gif) no-repeat 12px 12px;
+	font-weight: normal;
+	font-size: 17px;
+	line-height: 1.5em;
+	font-style: italic;
+	font-family: Georgia, 'Times New Roman', Times, Serif;	
+	color: #555;	
+}
+strong {
+	font-weight: bold;
+}
+
+/* start - table */
+table {
+	border-collapse: collapse;
+	margin: 10px 20px;		
+}
+tr { background: #FFF; }
+tr.altrow { background: #F9F9F9;	}
+th, td {
+	text-align: left;			
+	border-width: 1px;
+  	border-style: solid;
+}
+th {
+	color: #555;
+	background: #F0FBFF; 
+	padding: .8em 1em;	
+  	border-color: #D8EBF5 #D8EBF5 #B9DBEE #D8EBF5;	
+}
+td {
+	border-color: #EFEFEF;	
+	padding: .7em 1em;	
+}	
+/* end - table */
+
+/* form elements */
+form {
+	margin: 10px 20px; 
+	padding: 15px 25px 25px 25px; 
+	border: 1px solid #F0F0F0;
+	background: #F8F8F8;
+}
+form p {
+	border-bottom: 1px solid #E6E6E6;
+	padding: 12px 0 5px 0;	margin: 0;	
+	color: #666666;
+}
+label {
+	font-weight: bold;
+	color: #666666;
+}
+input, select, textarea {
+	margin: 5px 0;
+	padding: 5px;
+	color: #6A6969;
+	border-width: 1px;
+	border-style: solid;
+  	border-color: #D4D4D4 #EBEBEB #EBEBEB #D4D4D4; 	
+	font: 11px 'Lucida Grande', Verdana, Helvetica, sans-serif;
+}
+input:focus, select:focus, textarea:focus {
+	color: #7BA857;
+	background: #EFFAE6;
+}
+#name, #email, #message, #website {
+	width: 380px;
+}
+input.button { 
+	font: bold 12px Arial, Sans-serif; 
+	height: 30px;
+	margin: 0;
+	padding: 2px 3px; 
+	color: #FFF;
+	background:#B4DB6F;
+	
+	border-width: 1px;
+  	border-style: solid;
+  	border-color: #B6DE8F #91BD37 #91BD37 #B6DE8F;
+}
+
+input.long_text {
+	width: 640px;
+}
+
+/* ------------------------------------------
+   LAYOUT
+------------------------------------------- */ 
+#wrap {
+	width: 920px;
+	margin: 0 auto;
+	text-align: left;	
+}
+
+/* Header */
+#header {
+	margin: 0 auto;
+	margin-top: 20px;
+}
+#header h1#logo-text { margin: 0; padding: 0; }
+#header h1#logo-text a {
+	margin: 0; padding: 0 5px 0 0;
+	font: bold 62px 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-Serif;  
+	letter-spacing: -5px;
+	color: #1980AF;	
+	text-decoration: none;
+		
+	/* change the values of top and left to adjust the position of the logo*/
+	top: 30px; left: 30px;	
+}
+#header h1#logo-text a:hover { border: none; }
+#header p#slogan {
+	margin: 0; padding:  0 5px 0 0;
+	font-family: Georgia, 'Times New Roman', Times, serif;;
+	font-weight: bold;
+	font-size: 13px;
+	line-height: 1.8em;
+	font-style: italic;
+	letter-spacing: -.3px;
+	color: #999;	
+	
+	/* change the values of top and left to adjust the position */
+	top: 102px; left: 32px;		
+}
+
+/*  navigation  */
+#header #nav {
+	left: 0px;	bottom: 20px;		
+	margin: 0; padding: 0 0 0 20px;		
+	width: 900px;		
+	border-bottom: 1px solid #F2F2F2;	
+	/* z-index: 99999; */
+}
+#header #nav ul {
+	float: left;	
+	list-style: none;	
+	margin: 0;
+	padding: 0;					
+}
+#header #nav ul li {
+	float: left;
+	margin: 0; padding: 0;			
+}
+#header #nav ul li a:link,
+#header #nav ul li a:visited {
+	float: left;
+	margin: 0;
+	padding: 5px 15px 10px 15px;
+	color: #666666;
+	font: bold 14px 'Trebuchet MS', Arial, Sans-Serif;
+	text-transform: uppercase;		
+	border-right: 1px solid #EEE;	
+}
+#header #nav ul li a:hover, 
+#header #nav ul li a:active {
+	border: none;
+	color: #000;	
+	border-right: 1px solid #EEE;
+}
+#header #nav ul li#current a {	
+	background: transparent url(../images/current.gif) repeat-x left bottom;	
+	color: #222;	
+}
+
+#header #nav ul li.first a:link, 
+#header #nav ul li.first a:visited {
+	border-left: 1px solid #F1F1F1;	
+}
+
+/* Featured Block */
+#featured {
+	clear: both;
+	background: #F8FAFD; 
+	border: 1px solid #DCF1FB;
+	margin: 3px 0 15px 10px;
+	padding-bottom: 20px;
+	width: 900px;			
+}
+#featured h2 {
+	font: normal 3.8em Georgia, 'Times New Roman', Times, Serif;
+	color: #295177;
+	letter-spacing: -2.0px;	
+	margin-bottom: 0;
+	padding-bottom: 3px;
+	border-bottom: 1px solid #EBEBEB;	
+}
+#featured h2 a {
+	color: #295177;
+	border: none;	
+}
+#featured .image-block {
+	width: 55%;
+	margin: 20px auto;
+	padding: 10px 0 0 0;
+}
+#featured .image-block img {
+	background: #FFF;
+	border: 1px solid #DFEAF0;
+	padding: 12px;
+}
+
+/* footer-bottom */
+#footer-bottom {
+	float: left;
+	clear: both;
+	background: url(../images/dotted-lines.gif) repeat-x;
+	width: 920px;
+	margin: 30px auto 0 auto;	
+	font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, sans-serif;
+	font-size: .9em;		
+	color: #777;
+	border-bottom: 50px solid #FFF; 
+}
+#footer-bottom a:hover { border: none; }
+#footer-bottom .bottom-left {
+	float: left;
+	padding-left: 5px;		
+}
+#footer-bottom .bottom-right {
+	text-align: right;
+	padding-right: 0;
+}
+
+
+/* alignment classes & additional classes*/
+.float-left  { float: left; }
+.float-right { float: right; }
+.align-left  { text-align: left; }
+.align-right { text-align: right; }
+.no-border { border: none; }
+.no-bg {	background: none; }
+
+/* clearing */
+.clearer { clear: both; }
+.clear {	display:inline-block; }
+.clear:after {
+	display:block; 
+	visibility:hidden; 
+	clear:both; 
+	height:0; 
+	content: "."; 
+}
+
+
+

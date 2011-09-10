@@ -1,8 +1,10 @@
 <%inherit file="/base.mako"/>
 
 <%def name="content()">
-    <ul>
-        <li><a href="/create">Create New Game</a></li>
-    </ul>
+	<div class="image-block">
+		<a href="/create">
+			<img src="/static/images/ltn-start.jpg"/>
+		</a>
+	</div>
 </%def>
 
