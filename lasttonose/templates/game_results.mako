@@ -10,9 +10,9 @@
 		% for (name, participant), image_number in zip(participants, participant_image_numbers):
 		<div class="participant ${'touched_nose' if participant['touched_nose'] else 'not_touched_nose'}">
 			%if participant['touched_nose']:
-				<img class="status" src="/static/images/touched_nose_${image_number}.jpg"/>
+				<img class="status" src="/static/images/touched_nose_${image_number}.jpg" alt="${name} touched their nose"/>
 			%else:
-				<img class="status" src="/static/images/not_touched_nose_${image_number}.jpg"/>
+				<img class="status" src="/static/images/not_touched_nose_${image_number}.jpg" alt="${name} hasn't touched their nose"/>
 			%endif
 			<p class="name">${name}</p>
 		</div>

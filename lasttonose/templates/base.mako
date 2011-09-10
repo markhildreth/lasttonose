@@ -4,6 +4,8 @@
 	<title>Last To Nose</title>
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/css/screen.css" />
 
+	<meta charset="utf-8" />
+
 	${self.head()}
 </head>
 <body>
