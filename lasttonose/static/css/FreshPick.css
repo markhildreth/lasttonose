@@ -340,7 +340,7 @@ form.nose-touch {
 
 div.nose-touch-status div.participant p.name {
 	text-align: center;
-	margin 0px auto;
+	margin: 0 auto;
 	color: black;
 	font-size: 130%;
 }
