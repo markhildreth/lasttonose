@@ -79,10 +79,15 @@ def game(game_id, game_description=None):
     if _quote_game_name(game['name']) != game_description:
         return redirect(_url_for_game_intro(game))
 
+    # Sort participants by their name
+    participants = sorted(game['participants'].items())
     context = {
-        'game' : game,
+        'game_id' : game['id'],
+        'game_name' : game['name'],
+        'participants' : participants,
+
     }
-    return templating.render('/game.mako', dict(game=game))
+    return templating.render('/game.mako', context)
 
 
 @app.route('/game_results/<int:game_id>')
@@ -104,10 +109,14 @@ def game_results(game_id, game_description=None):
         # More players than images. Just get random images.
         participant_image_numbers = [random.randint(1, game['start_image_count']) for x in range(len(game['participants']))]
 
+    # Sort participants by their name
+    participants = sorted(game['participants'].items())
+
     game_state = logic.get_game_state(game)
 
     context = {
-        'game' : game,
+        'game_name' : game['name'],
+        'participants' : participants,
         'participant_image_numbers' : participant_image_numbers,
         'game_state' : game_state,
     }
