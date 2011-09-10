@@ -34,6 +34,7 @@ def create():
 
     if request.method == 'POST':
         name = request.form['last_to_nose_game_name']
+        name = name.strip('.').strip('!') # Don't need no punctuation.
         participants = set()
         for key, value in request.form.items():
             if key.startswith('last_to_nose_participant_') and value != '':
