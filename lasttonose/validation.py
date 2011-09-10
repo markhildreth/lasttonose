@@ -11,4 +11,13 @@ class Validation(object):
         return len(self.errors) == 0
 
 def validate_creation(name, participants):
-    return Validation.SUCCESSFUL()
+    errors = []
+
+    if len(name.strip()) == 0:
+        errors.append('You must input a game name')
+
+    if len(participants) < 3:
+        errors.append('You must have at least three participants')
+
+    return Validation(errors=errors)
+

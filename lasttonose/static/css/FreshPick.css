@@ -2,9 +2,9 @@
 	Template Name : FreshPick
 	Template Code : S-0029
 	Version : 1.0
-	Author : Erwin Aligam
+	Original Author : Erwin Aligam
 	Author URI : http://www.styleshout.com/       
-	Last Date Modified : April 24, 2009
+	Last Date of Original Modification : April 24, 2009
  ------------------------------------------------ */
  
 /* ----------------------------------------------
@@ -361,6 +361,10 @@ div.nose-touch-status div.not_touched_nose {
 span.game_name {
 	font-style: italic;
 	font-size: 80%;
+}
+
+ul.errors {
+	color: red;
 }
 
 

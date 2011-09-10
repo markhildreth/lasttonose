@@ -14,10 +14,11 @@ def index():
 def _render_creation_form(name='', participants=None, errors=None):
     # Create a participant list of at least 20 participants
     participants = participants or []
-    participants = participants + ([''] * min(0, 20 - len(participants)))
+    participants = list(participants) + ([''] * max(0, 20 - len(participants)))
     context = {
         'name' : name,
         'participants' : participants or [''] * 20,
+        'errors' : errors or [],
     }
     return templating.render('/create.mako', context)
 
@@ -37,7 +38,7 @@ def create():
         name = name.strip('.').strip('!') # Don't need no punctuation.
         participants = set()
         for key, value in request.form.items():
-            if key.startswith('last_to_nose_participant_') and value != '':
+            if key.startswith('last_to_nose_participant_') and value.strip() != '':
                 participants.add(value)
 
         results = validation.validate_creation(name, list(participants))
@@ -111,12 +112,11 @@ def touch_nose():
     except GameNotFound as ex:
         abort(404, 'This game is not found')
 
-    participants = [x for x in game['participants'] if x['name'] == participant_name]
-    if len(participants) == 0:
-        abort(500, 'Participant not found')
-    elif len(participants) ==1:
+    if not logic.get_game_state(game).game_over:
+        participants = [participant for name, participant in game['participants'].items() if name == participant_name]
         participant = participants[0]
         participant['touched_nose'] = True
         database.update_game(game)
-        return redirect(_url_for_game(game))
+
+    return redirect(_url_for_game(game))
 

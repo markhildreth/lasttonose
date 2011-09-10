@@ -5,6 +5,14 @@
 		<label for="last_to_nose_game_name">Last to Nose must...</label>
 		<input class="long_text" type="text" name="last_to_nose_game_name" value="${name}"/>
 
+		%if errors:
+		<ul class="errors">
+			%for error in errors:
+				<li>${error}</li>
+			%endfor
+		</ul>
+		%endif
+
 		<h3>Participants</h3>
 		<ul>
 		% for seq, participant in enumerate(participants):

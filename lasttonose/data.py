@@ -23,16 +23,17 @@ class Database(object):
         self.db = self.connection.lasttonose
         self.games = self.db.games
 
-    def create_game(self, name, participants):
-        game = {'name' : name, 'participants' : []}
+    def create_game(self, name, participant_names):
+        game = {'name' : name, 'participants' : {}}
+        participants = game['participants']
 
         current_image_count = _get_current_image_count()
         game['start_image_count'] = current_image_count
         random.seed()
         game['random_seed'] = random.random()
 
-        for participant in participants:
-            game['participants'].append({'name' : participant, 'touched_nose' : False})
+        for participant_name in participant_names:
+            participants[participant_name] = {'touched_nose' : False}
 
         self.games.insert(game)
         return game

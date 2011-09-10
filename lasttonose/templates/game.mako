@@ -7,14 +7,14 @@
     % endif
 
 	<div class="nose-touch-status">
-		% for participant, image_number in zip(game['participants'], participant_image_numbers):
+		% for (name, participant), image_number in zip(game['participants'].items(), participant_image_numbers):
 		<div class="participant ${'touched_nose' if participant['touched_nose'] else 'not_touched_nose'}">
 			%if participant['touched_nose']:
 				<img class="status" src="/static/images/touched_nose_${image_number}.jpg"/>
 			%else:
 				<img class="status" src="/static/images/not_touched_nose_${image_number}.jpg"/>
 			%endif
-			<p class="name">${participant['name']}</p>
+			<p class="name">${name}</p>
 		</div>
 		% endfor
 	</div>

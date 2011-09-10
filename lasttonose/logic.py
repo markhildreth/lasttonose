@@ -1,8 +1,8 @@
 def get_game_state(game):
-    not_touched = [x for x in game['participants'] if x['touched_nose'] == False]
+    not_touched_names = [name for name, participant in game['participants'].items() if participant['touched_nose'] == False]
 
-    if len(not_touched) == 1:
-        return ParticipantLostGameState(not_touched[0]['name'])
+    if len(not_touched_names) == 1:
+        return ParticipantLostGameState(not_touched_names[0])
     else:
         return TBDGameState()
         
