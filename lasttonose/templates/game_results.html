@@ -1,9 +1,9 @@
 {% extends "/base.html" %}
 
 {% block content %}
-	<h3>Last To Nose must... <span class="game_name"> {{game_name}} </span></h3>
-	{% if game_state.game_over %}
-		<h3>Game Over! {{ game_state.loser }} must {{ game_name }}!</h3>
+	<h3>Last To Nose must... <span class="game_name"> {{game.name}} </span></h3>
+	{% if game.is_game_over %}
+		<h3>Game Over! {{ game.loser.name }} must {{ game.name }}!</h3>
 	{% endif %}
 
 	<div class="nose-touch-status">

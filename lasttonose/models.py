@@ -10,6 +10,18 @@ class Game(db.Model):
     participants = db.relationship('Participant',
             order_by='Participant.name')
 
+    @property
+    def is_game_over(self):
+        return self.loser != None
+
+    @property
+    def loser(self):
+        untouched = [x for x in self.participants if not x.touched_nose]
+        if len(untouched) == 1:
+            return untouched[0]
+
+        return None
+
 class Participant(db.Model):
     __tablename__ = 'participants'
     

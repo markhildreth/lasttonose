@@ -5,7 +5,6 @@ from flask import request, redirect, abort, url_for, render_template
 
 from . import app, db
 from .validation import validate_creation
-from .logic import get_game_state
 from .models import Game, Participant
 
 @app.route('/', methods=['GET'])
@@ -101,12 +100,9 @@ def game_results(game_id, game_description=None):
         # More players than images. Just get random images.
         participant_image_numbers = [random.randint(1, image_count) for x in range(game.participants)]
 
-    game_state = get_game_state(game)
-
     context = {
-        'game_name' : game.name,
+        'game' : game,
         'participants' : zip(game.participants, participant_image_numbers),
-        'game_state' : game_state,
     }
 
     return render_template('/game_results.html', **context)
@@ -119,7 +115,7 @@ def touch_nose():
 
     game = Game.query.get_or_404(game_id)
 
-    if not get_game_state(game).game_over:
+    if not game.is_game_over:
         participant = [x for x in game.participants if x.name == participant_name][0]
         participant.touched_nose = True
         db.session.commit()
