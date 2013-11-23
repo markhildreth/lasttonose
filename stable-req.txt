@@ -1,9 +1,0 @@
-Flask==0.7.2
-Jinja2==2.6
-Mako==0.4.2
-MarkupSafe==0.15
-Werkzeug==0.7.1
-distribute==0.6.10
-pymongo==2.0.1
-wsgiref==0.1.2
-flup==1.0.2

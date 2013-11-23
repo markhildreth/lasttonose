@@ -1,0 +1,21 @@
+{% extends "/base.html" %}
+
+{% block content %}
+	<h3>Last To Nose must... <span class="game_name"> {{game_name}} </span></h3>
+	{% if game_state.game_over %}
+		<h3>Game Over! {{ game_state.loser }} must {{ game_name }}!</h3>
+	{% endif %}
+
+	<div class="nose-touch-status">
+		{% for participant, image_number in participants %}
+		<div class="participant {% if participant.1.touched_nose %}touched_nose{% else %}not_touched_nose{% endif %}">
+			{% if participant.1.touched_nose %}
+				<img class="status" src="/static/images/touched_nose_{{image_number}}.jpg" alt="{{name}} touched their nose"/>
+			{% else %}
+				<img class="status" src="/static/images/not_touched_nose_{{image_number}}.jpg" alt="{{name}} hasn't touched their nose"/>
+			{% endif %}
+			<p class="name">{{participant.0}}</p>
+		</div>
+		{% endfor %}
+	</div>
+{% endblock %}

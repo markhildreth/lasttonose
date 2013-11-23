@@ -6,7 +6,8 @@
 
 	<meta charset="utf-8" />
 
-	${self.head()}
+	{% block head %}
+	{% endblock %}
 </head>
 <body>
 <!-- wrap starts here -->
@@ -19,7 +20,8 @@
 	</div>
 	
 	<div id="featured" class="clear">
-		${self.content()}
+		{% block content %}
+		{% endblock %}
 	</div>	
 	
 	<!-- footer-bottom starts -->		
@@ -47,6 +49,3 @@
 
 </body>
 </html>
-
-<%def name="head()">
-</%def>

@@ -1,15 +1,14 @@
 import random
 from urllib import quote
 
-from lasttonose import app, request, redirect, abort, url_for
-from lasttonose import templating
-from lasttonose.data import database, GameNotFound
-from lasttonose import validation
-from lasttonose import logic
+from flask import request, redirect, abort, url_for, render_template
+
+from . import app, validation, logic, get_current_image_count
+from .data import database, GameNotFound
 
 @app.route('/', methods=['GET'])
 def index():
-    return templating.render('/index.mako')
+    return render_template('/index.html')
 
 def _render_creation_form(name='', participants=None, errors=None):
     # Create a participant list of at least 20 participants
@@ -17,10 +16,10 @@ def _render_creation_form(name='', participants=None, errors=None):
     participants = list(participants) + ([''] * max(0, 20 - len(participants)))
     context = {
         'name' : name,
-        'participants' : participants or [''] * 20,
+        'participants' : enumerate(participants or [''] * 20),
         'errors' : errors or [],
     }
-    return templating.render('/create.mako', context)
+    return render_template('/create.html', **context)
 
 def _quote_game_name(game_name):
     game_name = game_name.lower().replace(' ', '-')
@@ -66,7 +65,7 @@ def game_created(game_id):
         'game' : game,
         'encoded_path' : _url_for_game_intro(game),
     }
-    return templating.render('/game_created.mako', context)
+    return render_template('/game_created.html', **context)
 
 @app.route('/<int:game_id>')
 @app.route('/<int:game_id>/<string:game_description>')
@@ -87,7 +86,7 @@ def game(game_id, game_description=None):
         'participants' : participants,
 
     }
-    return templating.render('/game.mako', context)
+    return render_template('/game.html', **context)
 
 
 @app.route('/game_results/<int:game_id>')
@@ -101,27 +100,28 @@ def game_results(game_id, game_description=None):
     if _quote_game_name(game['name']) != game_description:
         return redirect(_url_for_game(game))
 
-    random.seed(game['random_seed'])
+    image_count = app.config['IMAGE_COUNT']
+
     try:
         # Try to get a sample of images, so there are no duplicates...
-        participant_image_numbers = random.sample(range(1, game['start_image_count'] + 1), len(game['participants']))
+        participant_image_numbers = random.sample(range(1, image_count), len(game['participants']))
     except ValueError:
         # More players than images. Just get random images.
-        participant_image_numbers = [random.randint(1, game['start_image_count']) for x in range(len(game['participants']))]
+        participant_image_numbers = [random.randint(1, image_count) for x in range(len(game['participants']))]
 
     # Sort participants by their name
     participants = sorted(game['participants'].items())
 
     game_state = logic.get_game_state(game)
 
+    print participants
     context = {
         'game_name' : game['name'],
-        'participants' : participants,
-        'participant_image_numbers' : participant_image_numbers,
+        'participants' : zip(participants, participant_image_numbers),
         'game_state' : game_state,
     }
 
-    return templating.render('/game_results.mako', context)
+    return render_template('/game_results.html', **context)
 
 
 @app.route('/touch_nose', methods=['POST'])
