@@ -28,7 +28,7 @@ def _quote_game_name(game_name):
     return ''.join([x for x in game_name if x in acceptable_characters])
 
 def _url_for_game_intro(game):
-    return url_for('game', game_id=game.id, game_description=_quote_game_name(game.name))
+    return url_for('game', game_id=game.id, game_description=_quote_game_name(game.name), _external=True)
 
 def _url_for_game(game):
     return url_for('game_results', game_id=game.id, game_description=_quote_game_name(game.name))
@@ -65,7 +65,7 @@ def game_created(game_id):
 
     context = {
         'game' : game,
-        'encoded_path' : _url_for_game_intro(game),
+        'game_url' : _url_for_game_intro(game),
     }
     return render_template('/game_created.html', **context)
 
