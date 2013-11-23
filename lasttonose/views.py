@@ -3,8 +3,10 @@ from urllib import quote
 
 from flask import request, redirect, abort, url_for, render_template
 
-from . import app, validation, logic, get_current_image_count
-from .data import database, GameNotFound
+from . import app
+from .data import db
+from .validation import validate_creation
+from .logic import get_game_state
 
 @app.route('/', methods=['GET'])
 def index():
@@ -45,9 +47,9 @@ def create():
             if key.startswith('last_to_nose_participant_') and value.strip() != '':
                 participants.add(value)
 
-        results = validation.validate_creation(name, list(participants))
+        results = validate_creation(name, list(participants))
         if results.is_valid:
-            game = database.create_game(name, participants)
+            game = db.create_game(name, participants)
 
             game_created_url = url_for('game_created', game_id=str(game['id']))
             return redirect(game_created_url)
@@ -57,7 +59,7 @@ def create():
 @app.route('/game_created/<int:game_id>')
 def game_created(game_id):
     try:
-        game = database.get_game(game_id)
+        game = db.get_game(game_id)
     except GameNotFound as ex:
         abort(404, 'This game is not found')
 
@@ -71,7 +73,7 @@ def game_created(game_id):
 @app.route('/<int:game_id>/<string:game_description>')
 def game(game_id, game_description=None):
     try:
-        game = database.get_game(game_id)
+        game = db.get_game(game_id)
     except GameNotFound as ex:
         abort(404, 'This game is not found')
 
@@ -93,7 +95,7 @@ def game(game_id, game_description=None):
 @app.route('/game_results/<int:game_id>/<string:game_description>')
 def game_results(game_id, game_description=None):
     try:
-        game = database.get_game(game_id)
+        game = db.get_game(game_id)
     except GameNotFound as ex:
         abort(404, 'This game is not found')
 
@@ -112,7 +114,7 @@ def game_results(game_id, game_description=None):
     # Sort participants by their name
     participants = sorted(game['participants'].items())
 
-    game_state = logic.get_game_state(game)
+    game_state = get_game_state(game)
 
     print participants
     context = {
@@ -130,15 +132,15 @@ def touch_nose():
     participant_name = request.form['participant']
 
     try:
-        game = database.get_game(game_id)
+        game = db.get_game(game_id)
     except GameNotFound as ex:
         abort(404, 'This game is not found')
 
-    if not logic.get_game_state(game).game_over:
+    if not get_game_state(game).game_over:
         participants = [participant for name, participant in game['participants'].items() if name == participant_name]
         participant = participants[0]
         participant['touched_nose'] = True
-        database.update_game(game)
+        db.update_game(game)
 
     return redirect(_url_for_game(game))
 
