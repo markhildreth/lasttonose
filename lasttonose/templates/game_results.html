@@ -8,13 +8,13 @@
 
 	<div class="nose-touch-status">
 		{% for participant, image_number in participants %}
-		<div class="participant {% if participant.1.touched_nose %}touched_nose{% else %}not_touched_nose{% endif %}">
-			{% if participant.1.touched_nose %}
+		<div class="participant {% if participant.touched_nose %}touched_nose{% else %}not_touched_nose{% endif %}">
+			{% if participant.touched_nose %}
 				<img class="status" src="/static/images/touched_nose_{{image_number}}.jpg" alt="{{name}} touched their nose"/>
 			{% else %}
 				<img class="status" src="/static/images/not_touched_nose_{{image_number}}.jpg" alt="{{name}} hasn't touched their nose"/>
 			{% endif %}
-			<p class="name">{{participant.0}}</p>
+			<p class="name">{{participant.name}}</p>
 		</div>
 		{% endfor %}
 	</div>
