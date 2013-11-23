@@ -8,7 +8,8 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     participants = db.relationship('Participant',
-            order_by='Participant.name')
+            order_by='Participant.name',
+            lazy='joined')
 
     @property
     def is_game_over(self):
