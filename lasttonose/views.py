@@ -4,7 +4,6 @@ from urllib import quote
 from flask import request, redirect, abort, url_for, render_template
 
 from . import app, db
-from .validation import validate_creation
 from .models import Game, Participant
 from .forms import CreateGameForm
 
