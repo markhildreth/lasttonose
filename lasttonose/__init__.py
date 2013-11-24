@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 app.config['IMAGE_COUNT'] = 6
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SECRET_KEY'] = os.environ['FLASK_SECRET_KEY']
 
 # Set up the database
 from lasttonose.models import db

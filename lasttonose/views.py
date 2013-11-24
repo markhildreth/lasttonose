@@ -6,21 +6,11 @@ from flask import request, redirect, abort, url_for, render_template
 from . import app, db
 from .validation import validate_creation
 from .models import Game, Participant
+from .forms import CreateGameForm
 
 @app.route('/', methods=['GET'])
 def index():
     return render_template('/index.html')
-
-def _render_creation_form(name='', participants=None, errors=None):
-    # Create a participant list of at least 20 participants
-    participants = participants or []
-    participants = list(participants) + ([''] * max(0, 20 - len(participants)))
-    context = {
-        'name' : name,
-        'participants' : enumerate(participants or [''] * 20),
-        'errors' : errors or [],
-    }
-    return render_template('/create.html', **context)
 
 def _quote_game_name(game_name):
     game_name = game_name.lower().replace(' ', '-')
@@ -35,29 +25,12 @@ def _url_for_game(game):
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
-    if request.method == 'GET':
-        return _render_creation_form()
+    form = CreateGameForm()
 
-    if request.method == 'POST':
-        name = request.form['last_to_nose_game_name']
-        name = name.strip('.').strip('!') # Don't need no punctuation.
-        participants = set()
-        for key, value in request.form.items():
-            if key.startswith('last_to_nose_participant_') and value.strip() != '':
-                participants.add(value)
+    if form.validate_on_submit() and form.run():
+        return redirect(url_for('game_created', game_id=form.game.id))
 
-        results = validate_creation(name, list(participants))
-        if results.is_valid:
-            game = Game(name=name)
-            for participant_name in participants:
-                game.participants.append( Participant(name=participant_name) )
-            db.session.add(game)
-            db.session.commit()
-
-            game_created_url = url_for('game_created', game_id=str(game.id))
-            return redirect(game_created_url)
-        else:
-            return _render_creation_form(name, participants, results.errors)
+    return render_template('/create.html', form=form)
             
 @app.route('/game_created/<int:game_id>')
 def game_created(game_id):
